@@ -1,21 +1,14 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ProgressResetter : MonoBehaviour
 {
-    public SoalManager soalManager; // referensi ke SoalManager agar bisa reset soal juga
-
     public void ResetProgress()
     {
-        // Reset data level terbuka, set ulang ke level 1
-        PlayerPrefs.SetInt("LevelTerbuka", 1);
-        PlayerPrefs.Save();
+        PlayerPrefs.DeleteAll(); // Reset semua data progres
+        Debug.Log("Progress telah di-reset!");
 
-        // Reset soal yang sedang dikerjakan ke awal
-        if (soalManager != null)
-        {
-            soalManager.ResetSoal();
-        }
-
-        Debug.Log("Progress berhasil direset!");
+        // Reload scene untuk reset semua trigger
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
