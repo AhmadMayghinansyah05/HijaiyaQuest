@@ -158,7 +158,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.21125793, y: 0}
-  m_SizeDelta: {x: 11.143005, y: 416.88965}
+  m_SizeDelta: {x: 11.143005, y: 406.34705}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &57055041
 MonoBehaviour:
@@ -229,7 +229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d570eddcaf9b5b4bb216be4880dcfeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soalManager: {fileID: 0}
 --- !u!4 &113052322
 Transform:
   m_ObjectHideFlags: 0
@@ -277,8 +276,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1763006933}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.0003763187, y: 0}
-  m_AnchorMax: {x: 0.9805256, y: 1}
+  m_AnchorMin: {x: 0.00037702493, y: 0}
+  m_AnchorMax: {x: 0.980489, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -695,7 +694,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 155945760}
   m_Direction: 0
   m_Value: 0.018957423
-  m_Size: 0.98014927
+  m_Size: 0.980112
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1268,12 +1267,46 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\U0001F3AF Tujuan\r\nLengkapi kata dalam Bahasa Arab dengan memilih huruf
-    yang hilang.\r\n\r\n\U0001F579\uFE0F Cara Bermain\r\n1. Pilih huruf yang tepat
-    dari pilihan.\r\n2. Jika benar, kamu lanjut.\r\n3. Selesaikan semua soal agar
-    bisa lanjut ke level berikutnya.\r\n\r\n\U0001F513 Level\r\n- Level 1: 3 soal\r\n-
-    Level 2: 5 soal\r\n- Level 3: 7 soal\r\n\r\n\U0001F4A1 Tips\r\nPerhatikan bentuk
-    huruf dan kata.\r\n\r\n\u2728 Selamat bermain!\r\n"
+  m_text: 'Tujuan
+
+    Lengkapi kata dalam Bahasa Arab dengan memilih huruf yang
+    hilang.
+
+    
+
+    Cara Bermain
+
+    1. Pilih huruf yang tepat dari pilihan.
+
+    2.
+    Jika benar, kamu lanjut.
+
+    3. Selesaikan semua soal agar bisa lanjut ke level
+    berikutnya.
+
+    
+
+    Level
+
+    - Level 1: 3 soal
+
+    - Level 2: 5 soal
+
+    -
+    Level 3: 7 soal
+
+    
+
+    Tips
+
+    Perhatikan bentuk huruf dan kata.
+
+    
+
+    Selamat
+    bermain!
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -1542,7 +1575,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1955759520}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.24201882
+  m_Size: 0.2611872
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2071,7 +2104,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2099669359}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.7579812}
+  m_AnchorMin: {x: 0, y: 0.7388128}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
