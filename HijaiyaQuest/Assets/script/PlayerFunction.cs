@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // Gantikan UnityEngine.UI
+using TMPro;
+using UnityEngine.UI; // Diperlukan untuk Button
 
 public class PlayerFunction : MonoBehaviour
 {
@@ -8,43 +9,51 @@ public class PlayerFunction : MonoBehaviour
     public float fallLimitY = -10f;
     
     [Header("Death Settings")]
-    public float deathDelay = 1f; // Waktu delay sebelum restart
-    public AudioClip deathSound; // Suara saat mati
-    public string deathAnimationTrigger = "Die"; // Nama trigger animasi
+    public float deathDelay = 1f;
+    public AudioClip deathSound;
+    public string deathAnimationTrigger = "Die";
     
     [Header("UI Settings")]
-    public GameObject deathScreenUI; // Panel UI yang muncul saat mati
+    public GameObject deathScreenUI;
     public TextMeshProUGUI deathMessageText;
+    public Button restartButton; // Tombol restart
+    public Button mainMenuButton; // Tombol ke main menu
 
     [Header("Player Settings")]
     public string playerTag = "Player";
+    public string mainMenuSceneName = "MainMenu"; // Nama scene main menu
     
-    private Animator animator;
+    // private Animator animator;
     private AudioSource audioSource;
     private bool isDead = false;
     
     void Start()
     {
         // Get components
-        animator = GetComponent<Animator>();
+        // animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         gameObject.tag = playerTag;
         
-        // Pastikan UI mati tidak aktif di awal
+        // Setup UI awal
         if (deathScreenUI != null)
             deathScreenUI.SetActive(false);
+            
+        // Setup tombol
+        if (restartButton != null)
+            restartButton.onClick.AddListener(RestartLevel);
+            
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.AddListener(GoToMainMenu);
     }
     
     void Update()
     {
-        // Cek jatuh
         if (!isDead && transform.position.y < fallLimitY)
         {
             Die("KAMU TERJATUH DAN MATI");
         }
     }
     
-    // Dipanggil ketika player menyentuh jebakan
     void OnTriggerEnter(Collider other)
     {
         if (!isDead && other.CompareTag("Trap"))
@@ -53,32 +62,45 @@ public class PlayerFunction : MonoBehaviour
         }
     }
     
-    // Fungsi untuk menangani semua jenis kematian
     public void Die(string deathMessage)
     {
+        if (isDead) return;
         isDead = true;
-        Debug.Log("Player died: " + deathMessage);
         
-        // Matikan kontrol player
+        // Matikan semua kontrol dan physics
         GetComponent<PlayerMovement>().enabled = false;
         
-        // Trigger animasi mati jika ada
-        if (animator != null)
-        {
-            animator.SetTrigger(deathAnimationTrigger);
-        }
+         // Handle kedua tipe Rigidbody
+    var rb2D = GetComponent<Rigidbody2D>();
+    if (rb2D != null)
+    {
+        rb2D.velocity = Vector2.zero;
+        rb2D.simulated = false;
+    }
+    
+    var rb3D = GetComponent<Rigidbody>();
+    if (rb3D != null)
+    {
+        rb3D.velocity = Vector3.zero;
+        rb3D.isKinematic = true;
+    }
+    
+    // Nonaktifkan semua collider
+    foreach (var col in GetComponents<Collider>()) col.enabled = false;
+    foreach (var col in GetComponents<Collider2D>()) col.enabled = false;
         
-        // Mainkan suara mati jika ada
+        // Animasi dan suara
+        // if (animator != null)
+        //     animator.SetTrigger(deathAnimationTrigger);
+            
         if (audioSource != null && deathSound != null)
-        {
             audioSource.PlayOneShot(deathSound);
-        }
         
         // Tampilkan UI kematian
         ShowDeathScreen(deathMessage);
         
-        // Restart level setelah delay
-        Invoke("RestartLevel", deathDelay);
+        // Batalkan restart otomatis jika ada tombol manual
+        CancelInvoke("RestartLevel");
     }
     
     void ShowDeathScreen(string message)
@@ -87,16 +109,20 @@ public class PlayerFunction : MonoBehaviour
         {
             deathScreenUI.SetActive(true);
             
-            // Set pesan kematian
             if (deathMessageText != null)
-            {
                 deathMessageText.text = message;
-            }
         }
     }
     
-    void RestartLevel()
+    public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // Reload scene aktif
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    
+    public void GoToMainMenu()
+    {
+        // Load scene main menu
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 }
