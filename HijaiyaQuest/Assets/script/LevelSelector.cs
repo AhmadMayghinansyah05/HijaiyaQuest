@@ -1,39 +1,70 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelSelector : MonoBehaviour
 {
-    public LevelData[] semuaLevel;
-    public Button[] tombolLevel;
+    public Button[] levelButtons; // ButtonLevel1, ButtonLevel2, ButtonLevel3
+    public Button buttonClear;
 
     void Start()
     {
-        int levelTerbuka = PlayerPrefs.GetInt("LevelTerbuka", 1); // Default level 1 terbuka
-
-        for (int i = 0; i < tombolLevel.Length; i++)
+        // Load progress saat awal
+        UpdateLevelButtons();
+        
+        // Setup tombol clear progress
+        if (buttonClear != null)
         {
-            int index = i;
+            buttonClear.onClick.AddListener(ClearProgress);
+        }
+    }
 
-            // Cek apakah level ini sudah terbuka
-            bool terbuka = semuaLevel[i].levelIndex < levelTerbuka;
-
-            tombolLevel[i].interactable = terbuka;
-            tombolLevel[i].onClick.RemoveAllListeners();
-
-            if (terbuka)
+    void UpdateLevelButtons()
+    {
+        int highestUnlockedLevel = PlayerPrefs.GetInt("HighestUnlockedLevel", 1);
+        
+        for (int i = 0; i < levelButtons.Length; i++)
+        {
+            bool isUnlocked = (i + 1) <= highestUnlockedLevel;
+            levelButtons[i].interactable = isUnlocked;
+            
+            // Update tampilan tombol
+            var buttonText = levelButtons[i].GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            if (buttonText != null)
             {
-                tombolLevel[i].onClick.AddListener(() => BukaLevel(index));
-            }
-            else
-            {
-                tombolLevel[i].onClick.AddListener(() => Debug.Log("Level belum terbuka!"));
+                buttonText.color = isUnlocked ? Color.white : Color.gray;
             }
         }
     }
 
-    void BukaLevel(int index)
+    public void LoadLevel(int levelIndex)
     {
-        Debug.Log("Buka level ke-" + index);
-        // Tambahkan logika untuk load scene atau tampilkan level
+        if ((levelIndex) <= PlayerPrefs.GetInt("HighestUnlockedLevel", 1))
+        {
+            SceneManager.LoadScene("Level" + levelIndex);
+        }
+        else
+        {
+            Debug.Log("Level terkunci! Selesaikan level sebelumnya terlebih dahulu.");
+        }
+    }
+
+    public void ClearProgress()
+    {
+        PlayerPrefs.DeleteKey("HighestUnlockedLevel");
+        PlayerPrefs.Save();
+        UpdateLevelButtons();
+        Debug.Log("Progress direset - Hanya Level 1 yang terbuka");
+    }
+
+    // Dipanggil ketika menyelesaikan sebuah level
+    public static void UnlockNextLevel(int completedLevel)
+    {
+        int currentUnlocked = PlayerPrefs.GetInt("HighestUnlockedLevel", 1);
+        if (completedLevel >= currentUnlocked)
+        {
+            PlayerPrefs.SetInt("HighestUnlockedLevel", completedLevel + 1);
+            PlayerPrefs.Save();
+        }
     }
 }

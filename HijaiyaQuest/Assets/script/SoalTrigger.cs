@@ -7,26 +7,26 @@ public class SoalTrigger : MonoBehaviour
     private SoalManager soalManager;
     private bool sudahDijawab = false;
 
-void Start()
-{
-    // Cek SoalManager
-    soalManager = FindObjectOfType<SoalManager>();
-    if (soalManager == null)
+    void Start()
     {
-        Debug.LogError("SoalManager tidak ditemukan! Pastikan ada di scene.");
-    }
+        // Cek SoalManager
+        soalManager = FindObjectOfType<SoalManager>();
+        if (soalManager == null)
+        {
+            Debug.LogError("SoalManager tidak ditemukan! Pastikan ada di scene.");
+        }
 
-    // Cek PanelSoal
-    if (panelSoal == null)
-    {
-        Debug.LogError("panelSoal belum di-assign! Drag Panel UI ke Inspector.");
-        enabled = false; // Nonaktifkan script
+        // Cek PanelSoal
+        if (panelSoal == null)
+        {
+            Debug.LogError("panelSoal belum di-assign! Drag Panel UI ke Inspector.");
+            enabled = false; // Nonaktifkan script
+        }
+        else
+        {
+            panelSoal.SetActive(false);
+        }
     }
-    else
-    {
-        panelSoal.SetActive(false);
-    }
-}
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -55,5 +55,10 @@ void Start()
     {
         sudahDijawab = false;
         GetComponent<Collider2D>().enabled = true;
+    }
+    
+    public bool IsAnsweredCorrectly()
+    {
+        return sudahDijawab;
     }
 }

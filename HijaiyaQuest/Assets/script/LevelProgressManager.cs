@@ -1,37 +1,55 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelProgressManager : MonoBehaviour
 {
-    public Button[] tombolLevel;
-    private const string KEY_LEVEL = "LevelTerbuka";
-
+    public Button[] levelButtons;
+    private const string PROGRESS_KEY = "LevelProgress";
+    
     void Start()
     {
-        int levelTerbuka = PlayerPrefs.GetInt(KEY_LEVEL, 1); // Default Level 1 terbuka
+        LoadLevelProgress();
+    }
 
-        for (int i = 0; i < tombolLevel.Length; i++)
+    public void LoadLevelProgress()
+    {
+        int unlockedLevel = PlayerPrefs.GetInt(PROGRESS_KEY, 1);
+        
+        for (int i = 0; i < levelButtons.Length; i++)
         {
-            tombolLevel[i].interactable = (i < levelTerbuka);
+            bool isUnlocked = (i + 1) <= unlockedLevel;
+            levelButtons[i].interactable = isUnlocked;
+            
+            // Setup teks dan warna tombol
+            var buttonText = levelButtons[i].GetComponentInChildren<Text>();
+            if (buttonText != null)
+            {
+                buttonText.text = "Level " + (i + 1);
+                buttonText.color = isUnlocked ? Color.white : Color.gray;
+            }
         }
     }
 
-    public static void BukaLevelBerikutnya(int indexLevelSekarang)
+    public static void UnlockNextLevel(int currentLevelIndex)
     {
-        int levelTerbuka = PlayerPrefs.GetInt(KEY_LEVEL, 1);
-
-        if (indexLevelSekarang + 1 >= levelTerbuka)
+        int unlockedLevel = PlayerPrefs.GetInt(PROGRESS_KEY, 1);
+        int nextLevel = currentLevelIndex + 1;
+        
+        if (nextLevel > unlockedLevel)
         {
-            PlayerPrefs.SetInt(KEY_LEVEL, indexLevelSekarang + 2); // +2 karena index 0 → Level 1
+            PlayerPrefs.SetInt(PROGRESS_KEY, nextLevel);
             PlayerPrefs.Save();
-            Debug.Log("Level " + (indexLevelSekarang + 2) + " sekarang terbuka!");
+            Debug.Log("Level " + nextLevel + " unlocked!");
         }
     }
 
     [ContextMenu("Reset Progress")]
     public void ResetProgress()
     {
-        PlayerPrefs.DeleteKey(KEY_LEVEL);
-        Debug.Log("Progress di-reset");
+        PlayerPrefs.DeleteKey(PROGRESS_KEY);
+        PlayerPrefs.Save();
+        LoadLevelProgress();
+        Debug.Log("Progress reset to Level 1");
     }
 }
