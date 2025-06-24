@@ -7288,7 +7288,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.472352, y: -0.94034004, z: -10}
+  m_LocalPosition: {x: -3.4194765, y: -0.94033, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11868,8 +11868,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -19921,7 +19921,7 @@ Transform:
   m_GameObject: {fileID: 2001239523}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 85.4, y: -1.74, z: 0.0050565638}
+  m_LocalPosition: {x: 85.82, y: -1.71, z: 0.0050565638}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19998,7 +19998,7 @@ MonoBehaviour:
   mainMenuButton: {fileID: 1486876806}
   retryButton: {fileID: 1922122394}
   completeMessage: LEVEL COMPLETE!
-  incompleteMessage: Jawab semua soal terlebih dahulu!
+  incompleteMessage: JAWAB DENGAN BENAR SEMUA SOAL!
   mainMenuScene: MainMenu
   allSoalTriggers:
   - {fileID: 1660549152}

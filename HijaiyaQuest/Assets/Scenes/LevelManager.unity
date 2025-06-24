@@ -889,7 +889,6 @@ MonoBehaviour:
   - {fileID: 866822684}
   - {fileID: 329907941}
   - {fileID: 2121470564}
-  buttonClear: {fileID: 1875162469}
 --- !u!1 &1707650409
 GameObject:
   m_ObjectHideFlags: 0
