@@ -110,48 +110,60 @@ public class FinishTrigger : MonoBehaviour
         }
 
         finishPanel.SetActive(true);
-        
+
         if (statusText != null)
             statusText.text = allCorrect ? completeMessage : incompleteMessage;
-        
+
         if (nextLevelButton != null)
             nextLevelButton.gameObject.SetActive(allCorrect);
-        
+
         if (retryButton != null)
             retryButton.gameObject.SetActive(!allCorrect);
 
-        if (allCorrect && GameManager.Instance != null)
-        {
-            GameManager.Instance.CompleteCurrentLevel();
-        }
     }
+
+    //     if (allCorrect && GameManager.Instance != null)
+    //     {
+    //         GameManager.Instance.CompleteCurrentLevel();
+    //     }
+    // }
 
     private void LoadNextLevel()
     {
-        if (GameManager.Instance == null)
-        {
-            Debug.LogError("GameManager instance tidak ditemukan!");
-            return;
-        }
-
+        // Try to get the next level name
+        string nextLevel = "";
         string currentScene = SceneManager.GetActiveScene().name;
+
         if (currentScene.StartsWith("Level"))
         {
             if (int.TryParse(currentScene.Replace("Level", ""), out int currentLevel))
             {
-                string nextLevel = "Level" + (currentLevel + 1);
-                
-                if (Application.CanStreamedLevelBeLoaded(nextLevel))
-                {
-                    SceneManager.LoadScene(nextLevel);
-                    return;
-                }
+                nextLevel = "Level" + (currentLevel + 1);
             }
         }
-        
-        // Fallback ke main menu
+
+        // If we have a GameManager instance, use it
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.CompleteCurrentLevel();
+
+            // If we found a next level, try to load it
+            if (!string.IsNullOrEmpty(nextLevel) && Application.CanStreamedLevelBeLoaded(nextLevel))
+            {
+                SceneManager.LoadScene(nextLevel);
+                return;
+            }
+        }
+        // If no GameManager but we have a valid next level
+        else if (!string.IsNullOrEmpty(nextLevel) && Application.CanStreamedLevelBeLoaded(nextLevel))
+        {
+            SceneManager.LoadScene(nextLevel);
+            return;
+        }
+
+        // Fallback to main menu
         SceneManager.LoadScene(mainMenuScene);
-    }
+    }   
 
     private void LoadMainMenu()
     {
