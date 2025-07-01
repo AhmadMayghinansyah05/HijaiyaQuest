@@ -56,9 +56,29 @@ public class SoalTrigger : MonoBehaviour
         sudahDijawab = false;
         GetComponent<Collider2D>().enabled = true;
     }
-    
+
     public bool IsAnsweredCorrectly()
     {
         return sudahDijawab;
+    }
+
+    [SerializeField] private TimerManager timerManager;
+    
+    // Dipanggil ketika jawaban salah
+    public void OnWrongAnswer()
+    {
+        if (timerManager != null)
+        {
+            timerManager.ApplyWrongAnswerPenalty();
+        }
+    }
+    
+    // Dipanggil ketika menggunakan hint
+    public void OnHintUsed()
+    {
+        if (timerManager != null)
+        {
+            timerManager.ApplyHintPenalty();
+        }
     }
 }
