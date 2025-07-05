@@ -53,28 +53,37 @@ public class GameManager : MonoBehaviour
         return IsLevelUnlocked(levelIndex);
     }
 
-    public void CompleteCurrentLevel()
+   public void CompleteCurrentLevel()
+{
+    string currentScene = SceneManager.GetActiveScene().name;
+    Debug.Log($"Mencoba menyelesaikan level: {currentScene}");
+
+    for (int i = 0; i < levelNames.Length; i++)
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        for (int i = 0; i < levelNames.Length; i++)
+        if (levelNames[i] == currentScene)
         {
-            if (levelNames[i] == sceneName)
+            Debug.Log($"Level {i} ({currentScene}) berhasil diselesaikan");
+            SetLevelComplete(i, true);
+            
+            // Unlock level berikutnya
+            if (i < levelNames.Length - 1)
             {
-                SetLevelComplete(i, true);
-                break;
+                SetLevelComplete(i + 1, true);
+                Debug.Log($"Level {i+1} ({levelNames[i+1]}) dibuka");
             }
+            return;
         }
     }
+    Debug.LogError($"Nama scene {currentScene} tidak ditemukan di levelNames!");
+}
 
     public void SetLevelComplete(int levelIndex, bool isComplete)
-    {
-        if (levelIndex >= 0 && levelIndex < levelCompletionStatus.Length)
-        {
-            levelCompletionStatus[levelIndex] = isComplete;
-            PlayerPrefs.SetInt("LevelComplete_" + levelIndex, isComplete ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-    }
+{
+    levelCompletionStatus[levelIndex] = isComplete;
+    PlayerPrefs.SetInt("LevelComplete_" + levelIndex, isComplete ? 1 : 0);
+    PlayerPrefs.Save(); // Ini penting!
+    Debug.Log($"Progress level {levelIndex} disimpan: {isComplete}");
+}
 
     // Ganti nama menjadi IsLevelUnlocked untuk lebih deskriptif
     public bool IsLevelUnlocked(int levelIndex)
